@@ -1,0 +1,374 @@
+ {
+    "settings": {
+    	"index.number_of_replicas": 0
+    },
+
+    "mappings" : {
+      "logs" : {
+        "dynamic" : "true",
+        "_all" : {
+          "enabled" : false
+        },
+        "dynamic_templates" : [
+          {
+            "str_template" : {
+              "match_mapping_type" : "*",
+              "mapping" : {
+                "normalizer" : "keyword_lowercase",
+                "type" : "keyword"
+              }
+            }
+          }
+        ],
+        "date_detection" : false,
+        "numeric_detection" : false,
+        "properties" : {
+          "ACCESSRIGHT" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "ALGORITHM" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "AUTHENTICATIONPACKAGENAME" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "COMMANDEXECUTED" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "COMMON_REPORT_NAME" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "CORRELATION_SUCCESS_RULES" : {
+            "type" : "text",
+            "analyzer" : "custom_analyzer"
+          },
+          "DESTINATION_IP" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "DOMAIN" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "DURATION" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "EVENTID" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "FACILITY" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "FIELD" : {
+            "type" : "text",
+            "analyzer" : "custom_analyzer"
+          },
+          "FIELD1" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "FIELD2" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "FIELD3" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "FIELD4" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "FIELD5" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "GROUPNAME" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "GUID" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "HISTORY_END_TIME" : {
+            "type" : "date"
+          },
+          "HISTORY_START_TIME" : {
+            "type" : "date"
+          },
+          "HOSTID" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "HOSTNAME" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "HOSTTYPE" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "ID" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "IDS_NAME" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "IENAME" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "INITIATORS_INFO" : {
+            "type" : "nested"
+          },
+          "INTELLIGENCE" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "INTERFACE" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "KEYLENGTH" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "LOGONID" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "LOGONTYPE" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "MESSAGE" : {
+            "type" : "text",
+            "analyzer" : "custom_analyzer"
+          },
+          "MSGFIELD" : {
+            "type" : "text",
+            "analyzer" : "custom_analyzer"
+          },
+          "NAME" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "NF_KEY" : {
+            "type" : "keyword"
+          },
+          "OLD_PRIVILEGE" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "PASSWORD" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "PLUGINOUTPUT" : {
+            "type" : "text",
+            "analyzer" : "custom_analyzer"
+          },
+          "PORT" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "PRIVATE_IP" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "PRIVILEGE" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "PROCESSNAME" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "PROTOCOL" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "PROTOCOL_APP" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "RAWLOG" : {
+            "type" : "text",
+            "analyzer" : "custom_analyzer"
+          },
+          "REASON" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "REMOTEHOST" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "REMOTE_INTERFACE" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "RESULT" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "RISK_LEVEL" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "SECURITYID" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "SEVERITY" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "SOURCE" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "SOURCEPORT" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "SOURCE_IP" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "STATUS_INFO" : {
+            "type" : "object"
+          },
+          "SUBHOSTTYPE" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "SUBJECTUSERNAME" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "TASKCATEGORY" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "TERMINATORS_INFO" : {
+            "type" : "nested"
+          },
+          "THREAT_SOURCE" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "TIME" : {
+            "type" : "date",
+            "format" : "epoch_millis"
+          },
+          "TYPE" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "TYPEFACILITY" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "TYPESEVERITY" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "TYPESOURCE" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "URL_ARG" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "URL_SITE" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          },
+          "USERNAME" : {
+            "type" : "keyword",
+            "normalizer" : "keyword_lowercase"
+          }
+        }
+      },
+      "_default_" : {
+        "dynamic" : "true",
+        "_all" : {
+          "enabled" : false
+        },
+        "dynamic_templates" : [
+          {
+            "str_template" : {
+              "match_mapping_type" : "*",
+              "mapping" : {
+                "normalizer" : "keyword_lowercase",
+                "type" : "keyword"
+              }
+            }
+          }
+        ],
+        "date_detection" : false,
+        "numeric_detection" : false,
+        "properties" : {
+          "CORRELATION_SUCCESS_RULES" : {
+            "type" : "text",
+            "analyzer" : "custom_analyzer"
+          },
+          "FIELD" : {
+            "type" : "text",
+            "analyzer" : "custom_analyzer"
+          },
+          "HISTORY_END_TIME" : {
+            "type" : "date"
+          },
+          "HISTORY_START_TIME" : {
+            "type" : "date"
+          },
+          "INITIATORS_INFO" : {
+            "type" : "nested"
+          },
+          "MESSAGE" : {
+            "type" : "text",
+            "analyzer" : "custom_analyzer"
+          },
+          "MSGFIELD" : {
+            "type" : "text",
+            "analyzer" : "custom_analyzer"
+          },
+          "NF_KEY" : {
+            "type" : "keyword"
+          },
+          "PLUGINOUTPUT" : {
+            "type" : "text",
+            "analyzer" : "custom_analyzer"
+          },
+          "RAWLOG" : {
+            "type" : "text",
+            "analyzer" : "custom_analyzer"
+          },
+          "STATUS_INFO" : {
+            "type" : "object"
+          },
+          "TERMINATORS_INFO" : {
+            "type" : "nested"
+          },
+          "TIME" : {
+            "type" : "date",
+            "format" : "epoch_millis"
+          }
+        }
+      }
+    }
+  }

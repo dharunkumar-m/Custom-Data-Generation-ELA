@@ -1,42 +1,252 @@
 {
   "version": 2,
-  "description": "Testing Lucene Backport changes",
+  "description": "Tutorial benchmark for Rally",
   "indices": [
     {
-      "name": "ELA_Indices",
+      "name": "ela_logs",
       "body": "index.json",
       "types": [ "docs" ]
     }
   ],
   "corpora": [
     {
-      "name": "ELA_documents",
+      "name": "rally-ELA",
       "documents": [
         {
           "source-file": "documents.json",
           "document-count": 36000000,
           "uncompressed-bytes": 35726211216
         },
-	
-	   {
+		
+		{
           "source-file": "documents1.json",
           "document-count": 36000000,
           "uncompressed-bytes": 35726946536
         },
 
-	   {
+	    {
           "source-file": "documents2.json",
           "document-count": 36000000,
           "uncompressed-bytes": 35729594437
         }
+		
       ]
     }
   ],
-  
- "operations": [
-    {{ rally.collect(parts="operations/*.json") }}
-  ],
-  "challenges": [
-    {{ rally.collect(parts="challenges/*.json") }}
+  "schedule": [
+    {
+      "operation": {
+        "operation-type": "delete-index"
+      }
+    },
+    {
+      "operation": {
+        "operation-type": "create-index"
+      }
+    },
+    {
+      "operation": {
+        "operation-type": "cluster-health",
+        "request-params": {
+          "wait_for_status": "green"
+        },
+        "retry-until-success": true
+      }
+    },
+    {
+      "operation": {
+        "operation-type": "bulk",
+        "bulk-size": 5000
+      },
+      "warmup-time-period": 120,
+      "clients": 8
+    },
+    {
+      "operation": {
+        "operation-type": "force-merge"
+      }
+    },
+    {
+      "operation": {
+        "name": "query-match-all",
+        "operation-type": "search",
+        "body": {
+          "query": {
+            "match_all": {}
+          }
+        }
+      },
+      "clients": 8,
+      "warmup-iterations": 1000,
+      "iterations": 1000,
+      "target-throughput": 100
+    },
+	
+	{
+      "operation": {
+		"name": "term",
+		"operation-type": "search",
+		"index": "logs-*",
+		"type": "type",
+		"body": {
+			"query": {
+				"term": {
+					"SEVERITY": {
+						"value": 9
+						}
+					}
+				}
+			}
+		},
+		"clients": 8,
+		"warmup-iterations": 1000,
+		"iterations": 1000,
+		"target-throughput": 100
+	},
+	
+	{
+      "operation": 
+	  
+	  {
+      "name": "range",
+      "operation-type": "search",
+      "index": "logs-*",
+      "type": "type",
+      "body": {
+        "query": {
+          "range": {
+			"TIME": {
+              "gt": 1609439400,
+              "lt": 1640686445
+            }
+          }
+        }
+      }
+    },
+	"clients": 8,
+	"warmup-iterations": 1000,
+	"iterations": 1000,
+	"target-throughput": 100
+	},
+	
+	{
+      "operation": 
+	  
+	  {
+      "name": "minutes_agg",
+      "operation-type": "search",
+      "index": "logs-*",
+      "type": "type",
+      "body": 
+	  {
+        "size": 0,
+        "aggs": {
+          "logs_by_minute": {
+            "date_histogram": {
+              "field": "TIME",  
+              "interval": "minute"
+            }
+          }
+        }
+      }
+    },
+	"clients": 8,
+	"warmup-iterations": 1000,
+	"iterations": 1000,
+	"target-throughput": 100
+	
+	},
+	
+	{
+      "operation": 
+	  
+	  {
+      "name": "scroll",
+      "operation-type": "search",
+      "index": "logs-*",
+      "type": "type",
+      "pages": 25,
+      "results-per-page": 1000,
+      "body": {
+        "query": {
+          "match_all": {}
+        }
+      }
+    },
+	
+	"clients": 8,
+	"warmup-iterations": 1000,
+	"iterations": 1000,
+	"target-throughput": 100
+	},
+	
+	{
+      "operation": 
+	  
+	  {
+      "name": "hostID_bool",
+      "operation-type": "search",
+      "index": "logs-*",
+      "type": "type",
+      "body": {
+
+		"query" : {
+	
+			"bool" : {
+				"must" : [
+				{
+					"range" : {
+						"TIME" : {
+							"from" : 1609439400,
+							"to" : 1640686445,
+							"include_lower" : true,
+							"include_upper" : true,
+							"boost" : 1.0
+						}
+					}
+				},
+				{
+					"bool" : {
+						"should" : [
+						{
+							"terms" : {
+								"HOSTID" : [
+                  
+									8,
+									16,
+									32,
+									64,
+									128,
+									256,
+									512,
+									768
+				
+									],
+								"boost" : 1.0
+								}
+							}
+						],
+							"disable_coord" : false,
+							"adjust_pure_negative" : true,
+							"boost" : 1.0
+						}
+					}
+				],
+					"disable_coord" : false,
+					"adjust_pure_negative" : true,
+					"boost" : 1.0
+				}
+			}
+		}     
+	},
+	
+	
+	"clients": 8,
+	"warmup-iterations": 1000,
+	"iterations": 1000,
+	"target-throughput": 100
+	
+	}
+	
   ]
 }

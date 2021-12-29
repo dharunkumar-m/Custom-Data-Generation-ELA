@@ -1,0 +1,142 @@
+    {
+      "name": "index-append",
+      "operation-type": "bulk",
+      "bulk-size": {{bulk_size | default(5000)}},
+      "ingest-percentage": {{ingest_percentage | default(100)}},
+      "corpora": "ELA_documents"
+    },
+    
+    {
+      "name": "default",
+      "operation-type": "search",
+      "index": "logs-*",
+      "type": "type",
+      "body": {
+        "query": {
+          "match_all": {}
+        }
+      }
+    },
+	
+    {
+      "name": "term",
+      "operation-type": "search",
+      "index": "logs-*",
+      "type": "type",
+      "body": {
+        "query": {
+          "term": {
+           "SEVERITY": {
+              "value": 9
+            }
+          }
+        }
+      }
+    },
+	
+    {
+      "name": "range",
+      "operation-type": "search",
+      "index": "logs-*",
+      "type": "type",
+      "body": {
+        "query": {
+          "range": {
+			"TIME": {
+              "gt": 1609439400,
+              "lt": 1640686445
+            }
+          }
+        }
+      }
+    },
+	
+    {
+      "name": "minutes_agg",
+      "operation-type": "search",
+      "index": "logs-*",
+      "type": "type",
+      "body": 
+	  {
+        "size": 0,
+        "aggs": {
+          "logs_by_minute": {
+            "date_histogram": {
+              "field": "TIME",  
+              "interval": "minute"
+            }
+          }
+        }
+      }
+    },
+	
+    {
+      "name": "scroll",
+      "operation-type": "search",
+      "index": "logs-*",
+      "type": "type",
+      "pages": 25,
+      "results-per-page": 1000,
+      "body": {
+        "query": {
+          "match_all": {}
+        }
+      }
+    },
+
+    {
+      "name": "hostID_bool",
+      "operation-type": "search",
+      "index": "logs-*",
+      "type": "type",
+      "body": {
+
+		"query" : {
+	
+			"bool" : {
+				"must" : [
+				{
+					"range" : {
+						"TIME" : {
+							"from" : 1609439400,
+							"to" : 1640686445,
+							"include_lower" : true,
+							"include_upper" : true,
+							"boost" : 1.0
+						}
+					}
+				},
+				{
+					"bool" : {
+						"should" : [
+						{
+							"terms" : {
+								"HOSTID" : [
+                  
+									8,
+									16,
+									32,
+									64,
+									128,
+									256,
+									512,
+									768
+				
+									],
+								"boost" : 1.0
+								}
+							}
+						],
+							"disable_coord" : false,
+							"adjust_pure_negative" : true,
+							"boost" : 1.0
+						}
+					}
+				],
+					"disable_coord" : false,
+					"adjust_pure_negative" : true,
+					"boost" : 1.0
+				}
+			}
+		}     
+	}

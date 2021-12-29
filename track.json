@@ -3,70 +3,40 @@
   "description": "Testing Lucene Backport changes",
   "indices": [
     {
-      "name": "ela_logs",
+      "name": "ELA_Indices",
       "body": "index.json",
       "types": [ "docs" ]
     }
   ],
   "corpora": [
     {
-      "name": "ELA-rally",
+      "name": "ELA_documents",
       "documents": [
         {
           "source-file": "documents.json",
-          "document-count": 10,
-          "uncompressed-bytes": 1544799789
+          "document-count": 36000000,
+          "uncompressed-bytes": 35726211216
+        },
+	
+	   {
+          "source-file": "documents1.json",
+          "document-count": 36000000,
+          "uncompressed-bytes": 35726946536
+        },
+
+	   {
+          "source-file": "documents2.json",
+          "document-count": 36000000,
+          "uncompressed-bytes": 35729594437
         }
       ]
     }
   ],
-  "schedule": [
-    {
-      "operation": {
-        "operation-type": "delete-index"
-      }
-    },
-    {
-      "operation": {
-        "operation-type": "create-index"
-      }
-    },
-    {
-      "operation": {
-        "operation-type": "cluster-health",
-        "request-params": {
-          "wait_for_status": "green"
-        },
-        "retry-until-success": true
-      }
-    },
-    {
-      "operation": {
-        "operation-type": "bulk",
-        "bulk-size": 5000
-      },
-      "warmup-time-period": 120,
-      "clients": 8
-    },
-    {
-      "operation": {
-        "operation-type": "force-merge"
-      }
-    },
-    {
-      "operation": {
-        "name": "query-match-all",
-        "operation-type": "search",
-        "body": {
-          "query": {
-            "match_all": {}
-          }
-        }
-      },
-      "clients": 8,
-      "warmup-iterations": 1000,
-      "iterations": 1000,
-      "target-throughput": 100
-    }
+  
+ "operations": [
+    {{ rally.collect(parts="operations/*.json") }}
+  ],
+  "challenges": [
+    {{ rally.collect(parts="challenges/*.json") }}
   ]
 }

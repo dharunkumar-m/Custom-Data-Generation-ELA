@@ -10,7 +10,7 @@
   ],
   "corpora": [
     {
-      "name": "rally-ELA",
+      "name": "rally-tutorial",
       "documents": [
         {
           "source-file": "documents.json",
